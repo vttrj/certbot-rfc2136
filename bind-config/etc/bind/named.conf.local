@@ -1,0 +1,22 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+key "certbot." {
+    algorithm hmac-sha512;
+    secret "SECRET_KEY_HERE";
+};
+
+zone "_acme-challenge.jvetter.net" {
+    type master;
+    file "_acme-challenge.jvetter.net.zone";
+    allow-query { any; };
+    check-names ignore; // needed as the zone begins with an underscore
+    update-policy {
+        grant certbot. name _acme-challenge.jvetter.net. txt;
+    };
+};
